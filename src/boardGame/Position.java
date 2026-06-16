@@ -8,7 +8,7 @@ public class Position {
 	public Position() {
 	}
 
-	public Position(Integer column, Integer row) {
+	public Position(Integer row, Integer column) {
 	
 		this.column = column;
 		this.row = row;
