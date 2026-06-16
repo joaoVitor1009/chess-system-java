@@ -2,8 +2,8 @@ package boardGame;
 
 public class Position {
 	
-	private Integer column;
 	private Integer row;
+	private Integer column;
 	
 	public Position() {
 	}
@@ -32,8 +32,10 @@ public class Position {
 
 	@Override
 	public String toString() {
-		return "Position [column= " + column + ", row= " + row + "]";
+		return "posição [row= " + row + ", column= " + column + "]";
 	}
+
+	
 	
 	
 }
