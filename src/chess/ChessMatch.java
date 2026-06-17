@@ -1,8 +1,11 @@
 package chess;
 
 import boardGame.Board;
+import boardGame.Piece;
+import boardGame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
+import chessException.ChessException;
 
 public class ChessMatch {
 
@@ -22,6 +25,26 @@ public class ChessMatch {
 			
 		}
 		return mat;
+	}
+	
+	public ChessPiece performChessMove(ChessPosition srcPosition, ChessPosition targetPosition) {
+		Position source = srcPosition.toPosition();
+		Position target = targetPosition.toPosition();
+		validateSourcePosition(source);
+		Piece capturedPiece = makemove(source, target);
+		return (ChessPiece) capturedPiece;
+	}
+	
+	private Piece makemove(Position src, Position tgrt) {
+		Piece p = board.removePiece(src);
+		Piece capturedPiece = board.removePiece(tgrt);
+		board.placePiece(p, tgrt);
+		return capturedPiece;
+	}
+	private void validateSourcePosition (Position ps) {
+		if(!board.thereIsAPiece(ps)) {
+			throw new ChessException("Posição excede o tabuleiro");
+		}
 	}
 	
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
