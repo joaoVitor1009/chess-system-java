@@ -43,7 +43,7 @@ public class ChessMatch {
 	}
 	private void validateSourcePosition (Position ps) {
 		if(!board.thereIsAPiece(ps)) {
-			throw new ChessException("Posição excede o tabuleiro");
+			throw new ChessException("Não possui peça na posição de origem");
 		}
 	}
 	

@@ -10,7 +10,7 @@ public class ChessPosition {
 	public ChessPosition(char column, int row) {
 		
 		if(column < 'a' || column > 'h' && row < 1 || row > 8) {
-			throw new ChessException("Erro de instanciação, a posição precisa estar entre A1 a H8");
+			throw new ChessException("Erro de posição, a posição precisa estar entre A1 a H8");
 		}
 		this.column = column;
 		this.row = row;
