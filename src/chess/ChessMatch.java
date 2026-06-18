@@ -8,79 +8,105 @@ import chess.pieces.Rook;
 import chessException.ChessException;
 
 public class ChessMatch {
-
+	
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 
 	public ChessMatch() {
 		this.board = new Board(8, 8);
+		turn = 1;
+		currentPlayer = Color.WHITE;
 		initialSetup();
-	} 
+	}
 	
-	public ChessPiece[][] getPieces(){
+	
+
+	public int getTurn() {
+		return turn;
+	}
+
+	public Color getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public ChessPiece[][] getPieces() {
 		ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
-		for (int i = 0; i<board.getRows(); i++) {
-			for(int j = 0; j<board.getColumns(); j++) {
+		for (int i = 0; i < board.getRows(); i++) {
+			for (int j = 0; j < board.getColumns(); j++) {
 				mat[i][j] = (ChessPiece) board.piece(i, j);
 			}
-			
+
 		}
 		return mat;
 	}
-	
-	public boolean[][] possibleMovies(ChessPosition source){
+
+	public boolean[][] possibleMovies(ChessPosition source) {
 		Position position = source.toPosition();
 		validateSourcePosition(position);
 		return board.piece(position).possibleMoves();
 	}
-	
+
 	public ChessPiece performChessMove(ChessPosition srcPosition, ChessPosition targetPosition) {
 		Position source = srcPosition.toPosition();
 		Position target = targetPosition.toPosition();
 		validateSourcePosition(source);
 		validateTargetPosition(source, target);
 		Piece capturedPiece = makemove(source, target);
+		nextTurn();
 		return (ChessPiece) capturedPiece;
 	}
-	
+
 	private Piece makemove(Position src, Position tgrt) {
 		Piece p = board.removePiece(src);
 		Piece capturedPiece = board.removePiece(tgrt);
 		board.placePiece(p, tgrt);
 		return capturedPiece;
 	}
-	private void validateSourcePosition (Position ps) {
-		if(!board.thereIsAPiece(ps)) {
+
+	private void validateSourcePosition(Position ps) {
+		if (!board.thereIsAPiece(ps)) {
 			throw new ChessException("Não possui peça na posição de origem");
 		}
+		
+		if (currentPlayer != ((ChessPiece)board.piece(ps)).getColor()){
+			throw new ChessException("A peça escolhida não pertence ao seu arsenal");
+		}
+		
 		if (!board.piece(ps).isThereAnyPossibleMOve()) {
 			throw new ChessException("Não existe movimentos possiveis para a peça escolhida");
 		}
+		
 	}
-	
-	private void validateTargetPosition (Position source, Position target) {
-		if(!board.piece(source).possibleMoves(target)) {
+
+	private void validateTargetPosition(Position source, Position target) {
+		if (!board.piece(source).possibleMoves(target)) {
 			throw new ChessException("A peça escolhida não pode ser movida para a posição de destino");
 		}
 	}
 	
+	private void nextTurn() {
+		turn++;
+		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+	}
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
 	}
-	
-	private void initialSetup() {
-	
-		//placeNewPiece('c', 1, new Rook(board, Color.WHITE));
-      //  placeNewPiece('c', 2, new Rook(board, Color.WHITE));
-      //  placeNewPiece('d', 2, new Rook(board, Color.WHITE));
-       // placeNewPiece('e', 2, new Rook(board, Color.WHITE));
-       // placeNewPiece('e', 1, new Rook(board, Color.WHITE));
-        placeNewPiece('d', 1, new King(board, Color.WHITE));
 
-        placeNewPiece('c', 7, new Rook(board, Color.BLACK));
-        placeNewPiece('c', 8, new Rook(board, Color.BLACK));
-        placeNewPiece('d', 7, new Rook(board, Color.BLACK));
-        placeNewPiece('e', 7, new Rook(board, Color.BLACK));
-        placeNewPiece('e', 8, new Rook(board, Color.BLACK));
-        placeNewPiece('d', 8, new King(board, Color.BLACK));
+	private void initialSetup() {
+
+		placeNewPiece('c', 1, new Rook(board, Color.WHITE));
+		placeNewPiece('c', 2, new Rook(board, Color.WHITE));
+		placeNewPiece('d', 2, new Rook(board, Color.WHITE));
+		placeNewPiece('e', 2, new Rook(board, Color.WHITE));
+		placeNewPiece('e', 1, new Rook(board, Color.WHITE));
+		placeNewPiece('d', 1, new King(board, Color.WHITE));
+
+		placeNewPiece('c', 7, new Rook(board, Color.BLACK));
+		placeNewPiece('c', 8, new Rook(board, Color.BLACK));
+		placeNewPiece('d', 7, new Rook(board, Color.BLACK));
+		placeNewPiece('e', 7, new Rook(board, Color.BLACK));
+		placeNewPiece('e', 8, new Rook(board, Color.BLACK));
+		placeNewPiece('d', 8, new King(board, Color.BLACK));
 	}
 }
