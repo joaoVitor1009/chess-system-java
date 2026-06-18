@@ -46,7 +46,7 @@ public class UI {
 			char column = s.charAt(0);
 			int row = Integer.parseInt(s.substring(1));
 			return new ChessPosition(column, row);
-			
+
 		} catch (RuntimeException e) {
 			throw new InputMismatchException("Erro de instanciação, a posição precisa estar entre A1 a H8");
 		}
@@ -58,9 +58,15 @@ public class UI {
 		printCapturedOieces(captured);
 		System.out.println();
 		System.out.println("Turn: " + chessMatch.getTurn());
-		System.out.println("AGUARDANDO JOGADOR: " + chessMatch.getCurrentPlayer());
-		if(chessMatch.getCheck()) {
-			System.out.println("CHECK!");
+		if (!chessMatch.getCheckMate()) {
+			System.out.println("AGUARDANDO JOGADOR: " + chessMatch.getCurrentPlayer());
+			if (chessMatch.getCheck()) {
+				System.out.println("CHECK!");
+			}
+		}
+		else {
+			System.out.println("CHECKMATE!");
+			System.out.println("Vencedor: " + chessMatch.getCurrentPlayer());
 		}
 	}
 
@@ -105,8 +111,10 @@ public class UI {
 	}
 
 	private static void printCapturedOieces(List<ChessPiece> captured) {
-		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList());
-		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
+		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE)
+				.collect(Collectors.toList());
+		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK)
+				.collect(Collectors.toList());
 		System.out.println("Peças capturadas: ");
 		System.out.print("Brancas: ");
 		System.out.print(ANSI_WHITE);
@@ -117,7 +125,7 @@ public class UI {
 		System.out.print(ANSI_YELLOW);
 		System.out.println(Arrays.toString(black.toArray()));
 		System.out.print(ANSI_RESET);
-		
+
 	}
 
 }
