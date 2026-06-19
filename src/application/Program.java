@@ -10,13 +10,16 @@ import chess.ChessPiece;
 import chess.ChessPosition;
 import chessException.ChessException;
 
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
+
 public class Program {
 
 	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
 
-		ChessMatch chessMatch = new ChessMatch();
+		 ChessMatch chessMatch = new ChessMatch();
 		List<ChessPiece> captured = new ArrayList<>();
 
 		while (!chessMatch.getCheckMate()) {
@@ -49,6 +52,6 @@ public class Program {
 			}
 		}
 		UI.clearScreen();
-		UI.printMatch(chessMatch, captured);
-	}
+		UI.printMatch(chessMatch, captured); 
+	} 
 }
