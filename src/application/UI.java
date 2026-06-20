@@ -39,7 +39,7 @@ public class UI {
 			
 			
 	        System.out.print("\033[H\033[2J");
-	        System.out.println("=================");
+	        System.out.println("  a b c d e f g h");
 	        System.out.flush(); 	
 	}
 
@@ -60,9 +60,16 @@ public class UI {
 		System.out.println();
 		printCapturedOieces(captured);
 		System.out.println();
-		System.out.println("Turn: " + chessMatch.getTurn());
+		System.out.println("Turno: " + chessMatch.getTurn());
 		if (!chessMatch.getCheckMate()) {
-			System.out.println("AGUARDANDO JOGADOR: " + chessMatch.getCurrentPlayer());
+			String playerColor = null;
+			if(chessMatch.getCurrentPlayer() == Color.WHITE) {
+				playerColor = "BRANCO";
+			}
+			else {
+				playerColor = "PRETO";
+			}
+			System.out.println("AGUARDANDO JOGADOR: " + playerColor);
 			if (chessMatch.getCheck()) {
 				System.out.println("CHECK!");
 			}
@@ -82,7 +89,6 @@ public class UI {
 			System.out.println();
 		}
 		System.out.println("  a b c d e f g h");
-		System.out.print("=================");
 	}
 
 	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
@@ -95,7 +101,6 @@ public class UI {
 			System.out.println();
 		}
 		System.out.println("  a b c d e f g h");
-		System.out.print("=================");
 	}
 
 	private static void printPiece(ChessPiece piece, boolean background) {

@@ -12,11 +12,6 @@ public class Rook extends ChessPiece {
 	}
 
 	@Override
-	public String toString() {
-	    return "T";
-	}
-
-	@Override
 	public boolean[][] possibleMoves() {
 		boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
 
@@ -53,8 +48,8 @@ public class Rook extends ChessPiece {
 		if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
 			mat[p.getRow()][p.getColumn()] = true;
 		}
-		
-		// baixo 
+
+		// baixo
 		p.setvalues(position.getRow() + 1, position.getColumn());
 		while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
 			mat[p.getRow()][p.getColumn()] = true;
@@ -66,4 +61,10 @@ public class Rook extends ChessPiece {
 
 		return mat;
 	}
+
+	@Override
+	public String toString() {
+		return "T";
+	}
+
 }

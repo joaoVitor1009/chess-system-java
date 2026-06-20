@@ -47,7 +47,7 @@ public class Bishop extends ChessPiece {
 		if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
 			mat[p.getRow()][p.getColumn()] = true;
 		}
-		
+
 		// DiagonalEsquerdaBaixo
 		p.setvalues(position.getRow() + 1, position.getColumn() - 1);
 		while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
@@ -60,10 +60,10 @@ public class Bishop extends ChessPiece {
 
 		return mat;
 	}
-	
+
 	@Override
 	public String toString() {
-	    return "B";
+		return "B";
 	}
 
 }

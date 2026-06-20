@@ -19,7 +19,7 @@ public class Program {
 
 	public static void main(String[] args) {
 
-		 ChessMatch chessMatch = new ChessMatch();
+		ChessMatch chessMatch = new ChessMatch();
 		List<ChessPiece> captured = new ArrayList<>();
 
 		while (!chessMatch.getCheckMate()) {
@@ -29,7 +29,7 @@ public class Program {
 				System.out.println();
 				System.out.print("Origem: ");
 				ChessPosition source = UI.readChessPosition(sc);
-				
+
 				boolean[][] possibleMoves = chessMatch.possibleMovies(source);
 				UI.clearScreen();
 				UI.printBoard(chessMatch.getPieces(), possibleMoves);
@@ -38,17 +38,21 @@ public class Program {
 				ChessPosition target = UI.readChessPosition(sc);
 
 				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
-				
-				if(capturedPiece != null) {
+
+				if (capturedPiece != null) {
 					captured.add(capturedPiece);
 				}
-				
-				if(chessMatch.promoted() != null) {
-					System.out.print("Digite a promoção B, H, T, Q, escolha: ");
-					String type = sc.nextLine();
+
+				if (chessMatch.promoted() != null) {
+					System.out.print("Digite a promoção, escolha: B, H, T, Q ");
+					String type = sc.nextLine().toUpperCase();
+					while (!type.equals("B") && !type.equals("H") && !type.equals("Q") && !type.equals("T")) {
+						System.out.print("Invalido ! digite a promoção novamente, escolha: B, H, T, Q ");
+						type = sc.nextLine().toUpperCase();
+					}
 					chessMatch.replacePromotedPiece(type);
 				}
-				
+
 			} catch (ChessException e) {
 				System.out.println(e.getMessage());
 				sc.nextLine();
@@ -58,6 +62,6 @@ public class Program {
 			}
 		}
 		UI.clearScreen();
-		UI.printMatch(chessMatch, captured); 
-	} 
+		UI.printMatch(chessMatch, captured);
+	}
 }

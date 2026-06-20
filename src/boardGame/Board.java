@@ -3,13 +3,13 @@ package boardGame;
 import boardGame.Exception.BoardException;
 
 public class Board {
-	
+
 	private Integer rows;
 	private Integer columns;
 	private Piece[][] pieces;
-	
+
 	public Board(Integer rows, Integer columns) {
-		if(rows < 1 || columns < 1) {
+		if (rows < 1 || columns < 1) {
 			throw new BoardException("Erro, é necessario o tabuleiro ter 1 ou mais linhas e colunas");
 		}
 		this.rows = rows;
@@ -31,27 +31,27 @@ public class Board {
 		}
 		return pieces[row][column];
 	}
-	
+
 	public Piece piece(Position position) {
 		if (!positionExists(position)) {
 			throw new BoardException("Erro, posição não esta no tabuleiro");
 		}
 		return pieces[position.getRow()][position.getColumn()];
 	}
-	
+
 	public void placePiece(Piece piece, Position position) {
-		if(thereIsAPiece(position)) {
+		if (thereIsAPiece(position)) {
 			throw new BoardException("Nesta posição ja existe uma peça: " + position);
 		}
 		pieces[position.getRow()][position.getColumn()] = piece;
 		piece.position = position;
 	}
-	
+
 	public Piece removePiece(Position position) {
 		if (!positionExists(position)) {
 			throw new BoardException("Erro, posição não esta no tabuleiro");
 		}
-		if(piece(position) == null) {
+		if (piece(position) == null) {
 			return null;
 		}
 		Piece auxiliar = piece(position);
@@ -59,19 +59,19 @@ public class Board {
 		pieces[position.getRow()][position.getColumn()] = null;
 		return auxiliar;
 	}
-	
+
 	private boolean positionExists(Integer row, Integer column) {
-		return row>= 0 && row < this.rows && column >= 0 && column < this.columns;
+		return row >= 0 && row < this.rows && column >= 0 && column < this.columns;
 	}
-	
+
 	public boolean positionExists(Position position) {
 		return positionExists(position.getRow(), position.getColumn());
 	}
-	
+
 	public boolean thereIsAPiece(Position position) {
 		if (!positionExists(position)) {
 			throw new BoardException("Erro, posição não esta no tabuleiro");
 		}
-		return piece(position) != null;	
+		return piece(position) != null;
 	}
 }

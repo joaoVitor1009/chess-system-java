@@ -1,6 +1,5 @@
 package chess;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,17 +89,17 @@ public class ChessMatch {
 		}
 
 		ChessPiece movedPiece = (ChessPiece) board.piece(target);
-		
+
 		// Special promotion
 		promoted = null;
-		if(movedPiece instanceof Pawn) {
-			if(movedPiece.getColor() == Color.WHITE && target.getRow() == 0 ||(movedPiece.getColor() == Color.BLACK && target.getRow() == 7)) {
-				promoted = (ChessPiece)board.piece(target);
+		if (movedPiece instanceof Pawn) {
+			if (movedPiece.getColor() == Color.WHITE && target.getRow() == 0
+					|| (movedPiece.getColor() == Color.BLACK && target.getRow() == 7)) {
+				promoted = (ChessPiece) board.piece(target);
 				promoted = replacePromotedPiece("Q");
 			}
 		}
-		
-		
+
 		check = (testCheck(opponent(currentPlayer))) ? true : false;
 
 		if (testCheckMate(opponent(currentPlayer))) {
@@ -119,30 +118,34 @@ public class ChessMatch {
 
 		return (ChessPiece) capturedPiece;
 	}
-	
+
 	public ChessPiece replacePromotedPiece(String type) {
-		if(promoted == null) {
+		if (promoted == null) {
 			throw new IllegalStateException("Não possui peças a ser promovida");
 		}
-		if(!type.equalsIgnoreCase("B") && !type.equalsIgnoreCase("H") && !type.equalsIgnoreCase("Q") && !type.equalsIgnoreCase("T")) {
-			throw new InvalidParameterException("Tipo de promoção invalida, selecione uma das seguintes: B, H, Q, T");
+		if (!type.equals("B") && !type.equals("H") && !type.equals("Q") && !type.equals("T")) {
+			return promoted;
 		}
+
 		Position pos = promoted.getChessPosition().toPosition();
 		Piece p = board.removePiece(pos);
 		piecesOnTheBoard.remove(p);
-		
+
 		ChessPiece newPiece = newPiece(type, promoted.getColor());
 		board.placePiece(newPiece, pos);
 		piecesOnTheBoard.add(newPiece);
-		
+
 		return newPiece;
-		
+
 	}
-	
+
 	private ChessPiece newPiece(String type, Color color) {
-		if(type.equalsIgnoreCase("B")) return new Bishop(board, color);
-		if(type.equalsIgnoreCase("H")) return new Knight(board, color);
-		if(type.equalsIgnoreCase("Q")) return new Queen(board, color);
+		if (type.equals("B"))
+			return new Bishop(board, color);
+		if (type.equals("H"))
+			return new Knight(board, color);
+		if (type.equals("Q"))
+			return new Queen(board, color);
 		return new Rook(board, color);
 	}
 
